@@ -1,0 +1,26 @@
+append path into environment variable
+PATH
+C:\Users\Jayaprakash\Anaconda3;C:\Users\Jayaprakash\Anaconda3\Scripts;C:\Users\Jayaprakash\Anaconda3\Library\bin;C:\Users\Jayaprakash\AppData\Local\Programs\Python\Python36-32\Scripts\;C:\Users\Jayaprakash\AppData\Local\Programs\Python\Python36-32\;C:\Program Files\Docker Toolbox;D:\App\kafka_2.12-2.1.0\bin\windows;D:\App\protobuf-3.7.0-rc-2
+
+
+1)
+cd D:\App\kafka_2.12-2.1.0\bin\windows
+
+2)
+# start zookeeper (make sure nothing is running on port 2181)
+zookeeper-server-start.bat ..\..\config\zookeeper.properties
+
+3)
+open another terminal window to start kafka broker
+# start Kafka
+kafka-server-start.bat ..\..\config\server.properties
+
+4)
+open another terminal to create a topic
+#creating topic called "twitter_topic"
+$kafka-topics --zookeeper 127.0.0.1:2181 --create --topic twitter_topic --partitions 1 --replication-factor 1
+
+5)
+open another terminal to start console consumer
+# consuming from "twitter_topic"
+kafka-console-consumer --bootstrap-server 127.0.0.1:9092 --topic twitter_topic

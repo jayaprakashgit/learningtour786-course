@@ -1,0 +1,16 @@
+FROM openjdk
+
+COPY maven/*.jar /libs/
+
+VOLUME /tmp
+ADD maven/${fileName}.jar ${fileName}.jar
+RUN sh -c 'touch /${fileName}'
+#ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/${fileName}.jar"]
+
+ENTRYPOINT ["java", \
+    "-Djava.security.egd=file:/dev/./urandom", \
+    "-cp", "/${fileName}.jar:/libs/*", \
+    "com.github.learningtour786.grpc.server.BlogServer" \
+]
+
+EXPOSE 50051

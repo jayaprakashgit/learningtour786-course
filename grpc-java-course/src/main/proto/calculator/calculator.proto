@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package calculator;
+
+option java_package="com.github.learningtour786.proto.calculator";
+option java_multiple_files=true;
+
+message Input{
+    int32 value1 = 1;
+    int32 value2 = 2;
+}
+
+message CalculatorRequest{
+    Input input = 1;
+}
+
+message CalculatorResponse{
+    int32 result = 1;
+}
+
+message PrimeNumberDecompositionRequest{
+    int64 number = 1;
+}
+
+message PrimeNumberDecompositionResponse{
+    int64 prime_factor = 1;
+}
+
+message AvgCalculationRequest{
+    float number = 1;
+}
+
+message AvgCalculationResponse{
+    double result = 1;
+}
+
+message MaxFindingRequest{
+    float input_number = 1;
+}
+
+message MaxFindingResponse{
+    float max_value = 1;
+}
+
+service CalculatorService{
+    //Unary API
+    rpc Calculate(CalculatorRequest) returns (CalculatorResponse) {};
+
+    //Server streaming API
+    rpc PrimeNumberDecomposition(PrimeNumberDecompositionRequest) returns (stream PrimeNumberDecompositionResponse) {};
+
+    //Client streaming API
+    rpc Average(stream AvgCalculationRequest) returns (AvgCalculationResponse) {};
+
+    //BiDi (BiDirectional) streaming API
+    rpc FindMaximum(stream MaxFindingRequest) returns (stream MaxFindingResponse) {};
+
+}
