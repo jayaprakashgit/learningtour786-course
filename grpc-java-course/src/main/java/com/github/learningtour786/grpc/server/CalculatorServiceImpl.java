@@ -1,6 +1,7 @@
 package com.github.learningtour786.grpc.server;
 
 import com.github.learningtour786.proto.calculator.*;
+import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 
 import java.util.concurrent.TimeUnit;
@@ -110,5 +111,23 @@ public class CalculatorServiceImpl extends CalculatorServiceGrpc.CalculatorServi
         };
 
         return requestStreamObserver;
+    }
+
+    @Override
+    public void squareRoot(SquareRootRequest request, StreamObserver<SquareRootResponse> responseObserver) {
+        int inputNumber = request.getInputNumber();
+        if (inputNumber >= 0) {
+            double sqrt = Math.sqrt(inputNumber);
+            responseObserver.onNext(SquareRootResponse.newBuilder()
+                    .setResult(sqrt)
+                    .build());
+            responseObserver.onCompleted();
+        } else {
+            responseObserver.onError(Status.INVALID_ARGUMENT
+                    .withDescription("Invalid argument supplied")
+                    .augmentDescription("Input Number is : "+inputNumber)
+                    .asRuntimeException()
+            );
+        }
     }
 }

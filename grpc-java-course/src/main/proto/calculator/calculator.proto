@@ -42,6 +42,14 @@ message MaxFindingResponse{
     float max_value = 1;
 }
 
+message SquareRootRequest{
+    int32 input_number = 1;
+}
+
+message SquareRootResponse{
+    double result = 1;
+}
+
 service CalculatorService{
     //Unary API
     rpc Calculate(CalculatorRequest) returns (CalculatorResponse) {};
@@ -54,5 +62,8 @@ service CalculatorService{
 
     //BiDi (BiDirectional) streaming API
     rpc FindMaximum(stream MaxFindingRequest) returns (stream MaxFindingResponse) {};
+
+    //This api may throw StatusRuntimeException
+    rpc SquareRoot(SquareRootRequest) returns (SquareRootResponse) {};
 
 }

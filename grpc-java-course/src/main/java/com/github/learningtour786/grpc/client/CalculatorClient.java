@@ -3,6 +3,7 @@ package com.github.learningtour786.grpc.client;
 import com.github.learningtour786.proto.calculator.*;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.StatusRuntimeException;
 import io.grpc.stub.StreamObserver;
 
 import java.util.Arrays;
@@ -20,9 +21,23 @@ public class CalculatorClient {
 
         /*doUnaryRpcCall(channel);
         doServerStreamingRpcCall(channel);
-        doClientStreamingRpcCall(channel);*/
-        doBiDirectionalStreamingRpcCall(channel);
+        doClientStreamingRpcCall(channel);
+        doBiDirectionalStreamingRpcCall(channel);*/
 
+        doTestOnError(channel);
+
+    }
+
+    private static void doTestOnError(ManagedChannel channel) {
+        CalculatorServiceGrpc.CalculatorServiceBlockingStub syncClient = CalculatorServiceGrpc.newBlockingStub(channel);
+        try {
+            syncClient.squareRoot(SquareRootRequest.newBuilder()
+                    .setInputNumber(-1)
+                    .build());
+        } catch (StatusRuntimeException e) {
+            System.out.println("Got Exception...");
+            e.printStackTrace();
+        }
     }
 
     private static void doBiDirectionalStreamingRpcCall(ManagedChannel channel) {
@@ -32,7 +47,7 @@ public class CalculatorClient {
         StreamObserver<MaxFindingResponse> responseStreamObserver = new StreamObserver<MaxFindingResponse>() {
             @Override
             public void onNext(MaxFindingResponse value) {
-                System.out.println("Received Current MaxValue :"+value.getMaxValue());
+                System.out.println("Received Current MaxValue :" + value.getMaxValue());
             }
 
             @Override
@@ -49,8 +64,8 @@ public class CalculatorClient {
 
         StreamObserver<MaxFindingRequest> requestStreamObserver = asyncStub.findMaximum(responseStreamObserver);
 
-        Arrays.asList(1,5,3,6,2,20).forEach(value->{
-            System.out.println("Sending value :"+value);
+        Arrays.asList(1, 5, 3, 6, 2, 20).forEach(value -> {
+            System.out.println("Sending value :" + value);
             requestStreamObserver.onNext(MaxFindingRequest.newBuilder().setInputNumber(value).build());
 
             //This is just for testing purpose to see the bidirectional streaming between client and server
@@ -80,7 +95,7 @@ public class CalculatorClient {
             @Override
             public void onNext(AvgCalculationResponse value) {
                 //This will be called up on server call onNext its responseObserver
-                System.out.println("Final Average Value is :"+value.getResult());
+                System.out.println("Final Average Value is :" + value.getResult());
             }
 
             @Override
@@ -148,6 +163,6 @@ public class CalculatorClient {
 
         //print the calculator rpc response result
         int result = calculatorResponse.getResult();
-        System.out.println("Sum Result : "+result);
+        System.out.println("Sum Result : " + result);
     }
 }
