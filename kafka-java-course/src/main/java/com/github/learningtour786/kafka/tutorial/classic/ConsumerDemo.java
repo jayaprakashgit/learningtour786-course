@@ -43,6 +43,11 @@ public class ConsumerDemo {
         //poll for data
         while (true) {
             ConsumerRecords<String, String> consumerRecords = consumer.poll(Duration.ofMillis(100));
+            //This is  just to see how many records can poll at a time, i noticed that i can poll more than 1 at a time
+            if (consumerRecords.count()>0) {
+                System.out.println("consumerRecords.count() = " + consumerRecords.count());
+            }
+
             consumerRecords.forEach(record->{
                 LOG.info("{}|{}|{}|{}|{}",record.key(),record.value(),record.topic(),record.partition(),record.offset());
             });

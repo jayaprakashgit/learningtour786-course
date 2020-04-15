@@ -26,21 +26,21 @@ import java.util.concurrent.TimeUnit;
  * Refer the below url to know how to connect and stream data from tiwtter
  * https://github.com/twitter/hbc
  */
-public class TwitterProducer {
+public class TwitterSafeHighThroughputProducer {
 
-    public static final Logger logger = LoggerFactory.getLogger(TwitterProducer.class);
+    public static final Logger logger = LoggerFactory.getLogger(TwitterSafeHighThroughputProducer.class);
 
     final String consumerKey;
     final String consumerSecret;
     final String token;
     final String tokenSecret;
 
-    List<String> terms = Lists.newArrayList("narendra modi");
+    List<String> terms = Lists.newArrayList("Narendra Modi", "Donald Trump", "Boris Johnson");
 
     Client client = null;
     Producer<String, String> kafkaProducer = null;
 
-    private TwitterProducer() {
+    private TwitterSafeHighThroughputProducer() {
         //https://github.com/twitter/hbc
         /*pass this variables from jvm options
         -DconsumerKey=<<value>>
@@ -57,7 +57,7 @@ public class TwitterProducer {
     }
 
     public static void main(String[] args) {
-        new TwitterProducer().run();
+        new TwitterSafeHighThroughputProducer().run();
     }
 
     private void run() {
@@ -118,6 +118,19 @@ public class TwitterProducer {
         properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+
+        //create a safe producer props
+        properties.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, "true");
+        properties.put(ProducerConfig.ACKS_CONFIG, "all");
+        properties.put(ProducerConfig.RETRIES_CONFIG, Integer.toString(Integer.MAX_VALUE));
+        //if kafka 2.0 >= 1.1, so we can keep this as 5, otherwise use 1, this will maintain order in case of retries
+        properties.put(ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION, "5");
+
+        //high throughput producer props (at the expense of a bit of latency and cpu usage)
+        //basically, we are going to wait 20 ms to collect all the data (each data is posted by calling producer.send method) and compress it and send as a batch)
+        properties.put(ProducerConfig.COMPRESSION_TYPE_CONFIG, "snappy");//producer compress the data before it send to kafka
+        properties.put(ProducerConfig.LINGER_MS_CONFIG, "20");//how much delay i want to give to my producer before flush the data to kafka broker
+        properties.put(ProducerConfig.BATCH_SIZE_CONFIG, Integer.toString(32 * 1024)); //32 KB batch size
 
         Producer<String, String> kafkaProducer = new KafkaProducer<String, String>(properties);
         return kafkaProducer;

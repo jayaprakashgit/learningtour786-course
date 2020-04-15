@@ -26,9 +26,9 @@ import java.util.concurrent.TimeUnit;
  * Refer the below url to know how to connect and stream data from tiwtter
  * https://github.com/twitter/hbc
  */
-public class TwitterProducer {
+public class TwitterSafeProducer {
 
-    public static final Logger logger = LoggerFactory.getLogger(TwitterProducer.class);
+    public static final Logger logger = LoggerFactory.getLogger(TwitterSafeProducer.class);
 
     final String consumerKey;
     final String consumerSecret;
@@ -40,7 +40,7 @@ public class TwitterProducer {
     Client client = null;
     Producer<String, String> kafkaProducer = null;
 
-    private TwitterProducer() {
+    private TwitterSafeProducer() {
         //https://github.com/twitter/hbc
         /*pass this variables from jvm options
         -DconsumerKey=<<value>>
@@ -57,7 +57,7 @@ public class TwitterProducer {
     }
 
     public static void main(String[] args) {
-        new TwitterProducer().run();
+        new TwitterSafeProducer().run();
     }
 
     private void run() {
@@ -118,6 +118,13 @@ public class TwitterProducer {
         properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+
+        //create a safe producer props
+        properties.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, "true");
+        properties.put(ProducerConfig.ACKS_CONFIG, "all");
+        properties.put(ProducerConfig.RETRIES_CONFIG, Integer.toString(Integer.MAX_VALUE));
+        //if kafka 2.0 >= 1.1, so we can keep this as 5, otherwise use 1, this will maintain order in case of retries
+        properties.put(ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION, "5");
 
         Producer<String, String> kafkaProducer = new KafkaProducer<String, String>(properties);
         return kafkaProducer;

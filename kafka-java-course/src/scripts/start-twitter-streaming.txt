@@ -24,3 +24,13 @@ $kafka-topics --zookeeper 127.0.0.1:2181 --create --topic twitter_topic --partit
 open another terminal to start console consumer
 # consuming from "twitter_topic"
 kafka-console-consumer --bootstrap-server 127.0.0.1:9092 --topic twitter_topic
+
+6)
+reply the topic from the begining
+kafka-consumer-groups --bootstrap-server 127.0.0.1:9092 --group kafka-demo-elasticsearch --describe
+kafka-consumer-groups --bootstrap-server 127.0.0.1:9092 --group kafka-demo-elasticsearch --reset-offsets --to-earliest --execute --topic twitter_topic
+
+7)
+reply the topic by shifting backward by 2
+kafka-consumer-groups --bootstrap-server 127.0.0.1:9092 --group kafka-demo-elasticsearch --reset-offsets --shift-by -2 --execute --topic twitter_topic
+kafka-consumer-groups --bootstrap-server 127.0.0.1:9092 --group kafka-demo-elasticsearch --describe
