@@ -1,0 +1,40 @@
+{
+  "type": "object",
+  "javaType": "com.github.learningtour786.kafka.tutorial.stream.types.MarketPrice",
+  "properties": {
+    "MsgId": {
+      "type": "string"
+    },
+    "CreatedTime": {
+      "javaType": "java.lang.Long",
+      "type": "object"
+    },
+    "Sym": {
+      "type": "string"
+    },
+    "BrokerID": {
+      "type": "string"
+    },
+    "PublisherID": {
+      "type": "string"
+    },
+    "ProductType": {
+      "type": "string"
+    },
+    "UpdateType": {
+      "type": "string"
+    },
+    "SupportStatus": {
+      "type": "integer"
+    },
+    "Bid": {
+      "type": "number"
+    },
+    "Ask": {
+      "type": "number"
+    },
+    "Mid": {
+      "type": "number"
+    }
+  }
+}

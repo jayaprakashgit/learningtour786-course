@@ -12,10 +12,25 @@
         <module>grpc-java-course</module>
         <module>kafka-consumer-elasticsearch</module>
         <module>kafka-connect</module>
+        <module>kafka-stream-demo</module>
+        <module>kafka-muti-thread-producer</module>
+        <module>kafka-pos-simulator</module>
+        <module>kafka-fx-market-data-simulator</module>
+        <module>kafka-pos-validator</module>
+        <module>kafka-streams-topology</module>
     </modules>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
+
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.10</version>
+        </dependency>
+    </dependencies>
 </project>

@@ -1,0 +1,2 @@
+REM kafka-topics.bat --create --zookeeper localhost:2181 --topic nse-eod-topic --partitions 5 --replication-factor 2
+kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic nse-eod-topic
