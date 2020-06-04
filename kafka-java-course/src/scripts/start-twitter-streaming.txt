@@ -20,6 +20,9 @@ open another terminal to create a topic
 #creating topic called "twitter_topic"
 $kafka-topics --zookeeper 127.0.0.1:2181 --create --topic twitter_topic --partitions 1 --replication-factor 1
 
+#describe the topic details
+kafka-topics --describe --zookeeper localhost:2181 --topic pos
+
 5)
 open another terminal to start console consumer
 # consuming from "twitter_topic"
@@ -27,6 +30,7 @@ kafka-console-consumer --bootstrap-server 127.0.0.1:9092 --topic twitter_topic
 
 6)
 reply the topic from the begining
+kafka-consumer-groups --list --bootstrap-server 127.0.0.1:9092
 kafka-consumer-groups --bootstrap-server 127.0.0.1:9092 --group kafka-demo-elasticsearch --describe
 kafka-consumer-groups --bootstrap-server 127.0.0.1:9092 --group kafka-demo-elasticsearch --reset-offsets --to-earliest --execute --topic twitter_topic
 
