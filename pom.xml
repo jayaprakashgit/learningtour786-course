@@ -18,6 +18,8 @@
         <module>kafka-fx-market-data-simulator</module>
         <module>kafka-pos-validator</module>
         <module>kafka-streams-topology</module>
+        <module>kafka-inmemory-state-store</module>
+        <module>kafka-streaming-ktable</module>
     </modules>
 
     <properties>
