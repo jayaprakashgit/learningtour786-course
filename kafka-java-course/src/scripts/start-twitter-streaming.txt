@@ -1,10 +1,10 @@
 append path into environment variable
 PATH
-C:\Users\Jayaprakash\Anaconda3;C:\Users\Jayaprakash\Anaconda3\Scripts;C:\Users\Jayaprakash\Anaconda3\Library\bin;C:\Users\Jayaprakash\AppData\Local\Programs\Python\Python36-32\Scripts\;C:\Users\Jayaprakash\AppData\Local\Programs\Python\Python36-32\;C:\Program Files\Docker Toolbox;D:\App\kafka_2.12-2.1.0\bin\windows;D:\App\protobuf-3.7.0-rc-2
+C:\Users\Jayaprakash\Anaconda3;C:\Users\Jayaprakash\Anaconda3\Scripts;C:\Users\Jayaprakash\Anaconda3\Library\bin;C:\Users\Jayaprakash\AppData\Local\Programs\Python\Python36-32\Scripts\;C:\Users\Jayaprakash\AppData\Local\Programs\Python\Python36-32\;C:\Program Files\Docker Toolbox;C:\App\kafka_2.12-2.1.0\bin\windows;D:\App\protobuf-3.7.0-rc-2
 
 
 1)
-cd D:\App\kafka_2.12-2.1.0\bin\windows
+cd C:\App\kafka_2.12-2.1.0\bin\windows
 
 2)
 # start zookeeper (make sure nothing is running on port 2181)

@@ -9,9 +9,10 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>grpc-java-course</module>
+        <!--<module>grpc-java-course</module>-->
         <module>kafka-consumer-elasticsearch</module>
-        <module>kafka-connect</module>
+        <!--<module>kafka-connect</module>-->
+        <module>kafka-java-course</module>
         <module>kafka-stream-demo</module>
         <module>kafka-muti-thread-producer</module>
         <module>kafka-pos-simulator</module>
@@ -20,6 +21,8 @@
         <module>kafka-streams-topology</module>
         <module>kafka-inmemory-state-store</module>
         <module>kafka-streaming-ktable</module>
+        <module>kafka-word-count</module>
+        <module>core-java</module>
     </modules>
 
     <properties>
